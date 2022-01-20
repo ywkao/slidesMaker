@@ -1,0 +1,85 @@
+\documentclass{beamer}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage{subfig}
+
+\usefonttheme{structuresmallcapsserif}
+\usetheme{Madrid}
+%\usetheme{Boadilla}
+
+%====================================================================
+% Info on title page
+%====================================================================
+%\titlegraphic{
+%    \includegraphics[width=2cm]{logo_CMS.png}\hspace*{6cm}~%
+%    \includegraphics[width=2cm]{logo_NTU.png}
+%}
+
+%\title{Search for Top FCNH with H$\to\gamma\gamma$ in pp Collision at 13 TeV in CMS}
+\title{Search for $T’ \to tH(\gamma\gamma)$ in Hadronic Channel}
+%\subtitle{Update}
+\author{Prafulla Saha, Prolay Mal, Maxime Gouzevitch, Stephanie Beauceron, Kai-Feng Chen, Yu-Wei Kao}
+\institute{National Taiwan University}
+\date{\today}
+
+%----------------------------------------------------------------------------------------------------
+
+\begin{document}
+\frame{\titlepage}
+%====================================================================
+\section{Status}
+%====================================================================
+\begin{frame}
+\frametitle{Status}
+\begin{itemize}
+\item BDT and BDTG
+    \begin{itemize}
+    \item 3 sets of mass points: [600-700], [800-1000], [1100-1200] GeV
+    \item Background samples: only ttH samples (Ntuples produced by THQHadronicTagProducer.cc)
+    \end{itemize}
+\item Apply trained BDT / Performance check
+\end{itemize}
+\end{frame}
+
+%====================================================================
+\section{Training Result}
+%====================================================================
+\begin{frame}
+\frametitle{Training Result - TMVA BDT}
+
+\begin{columns}
+% 1st column
+\begin{column}{0.5\textwidth}
+    \begin{scriptsize}
+    \begin{itemize}
+    \item Signal sample: $M_{T’} = 600 GeV$
+    \item BDT trained with $M_{T’} \in [600, 700] GeV$
+    \item Background: ttH only
+    \end{itemize}
+    \end{scriptsize}
+
+    \begin{figure}
+        \centering
+        \subfloat{\includegraphics[scale=0.2]{mva12/THQHadronicTag_mytag_MVA_value_smh_varset8_mixed03_tmva_n100_TprimeBToTH_M-600.png}}
+        \label{fig:mva_bdt}
+    \end{figure}
+\end{column}
+% 2nd column
+\begin{column}{0.5\textwidth}
+    \begin{figure}
+        \centering
+        \subfloat{\includegraphics[scale=0.17]{mva12/THQHadronicTag_mytag_accumulated_yields_MVA_value_smh_varset8_mixed03_tmva_n100_TprimeBToTH_M-600.png}}\qquad
+        \subfloat{\includegraphics[scale=0.17]{mva12/THQHadronicTag_mytag_significance_MVA_value_smh_varset8_mixed03_tmva_n100_TprimeBToTH_M-600.png}}
+        \label{fig:mva_bdt}
+    \end{figure}
+\end{column}
+\end{columns}
+
+\end{frame}
+\end{document}
+
+%mva12/THQHadronicTag_mytag_MVA_value_smh_varset8_mixed03_tmva_original_n100_TprimeBToTH_M-600.png
+%mva12/THQHadronicTag_mytag_MVA_value_smh_varset8_mixed03_tmva_bdtg_n100_TprimeBToTH_M-600.png
+%mva12/THQHadronicTag_mytag_MVA_value_smh_varset8_mixed03_tmva_bdtg_original_n100_TprimeBToTH_M-600.png
+%mva12/THQHadronicTag_mytag_accumulated_yields_MVA_value_smh_varset8_mixed03_tmva_bdtg_n100_TprimeBToTH_M-600.png
+%mva12/THQHadronicTag_mytag_significance_MVA_value_smh_varset8_mixed03_tmva_bdtg_n100_TprimeBToTH_M-600.png
