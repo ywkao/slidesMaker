@@ -1,5 +1,44 @@
 #!/usr/bin/env python
-template = '''\\begin{{frame}}
+#----------------------------------------------------------------------------------------------------
+# template
+#----------------------------------------------------------------------------------------------------
+template_2016 = '''\\begin{{frame}}
+\\frametitle{{ {TITLE} }}
+\\begin{{columns}}
+%----------------------------------------------------------------------------------------------------
+% 1st column
+%----------------------------------------------------------------------------------------------------
+\\begin{{column}}{{0.60\\textwidth}}
+\\begin{{itemize}}
+    \\footnotesize
+    \\item EOY 2016
+    \\begin{{figure}}
+        \\centering
+        \\subfloat{{\\includegraphics[scale=0.25]{{Data_MC_comparison_20220120v3p6_std_2016/{FILE}}}}}
+        \\label{{fig:mva_bdt}}
+    \\end{{figure}}
+\\end{{itemize}}
+\\end{{column}}
+%----------------------------------------------------------------------------------------------------
+% 2nd column
+%----------------------------------------------------------------------------------------------------
+\\begin{{column}}{{0.60\\textwidth}}
+\\begin{{itemize}}
+    \\footnotesize
+    \\item Reprocessed EOY 2016
+    \\begin{{figure}}
+        \\centering
+        \\subfloat{{\\includegraphics[scale=0.25]{{Data_MC_comparison_20220119v4p1_std_2016/{FILE}}}}}
+        \\label{{fig:mva_bdt}}
+    \\end{{figure}}
+\\end{{itemize}}
+\\end{{column}}
+
+\\end{{columns}}
+\\end{{frame}}
+'''
+
+template_plots_year = '''\\begin{{frame}}
 \\frametitle{{ {TITLE} }}
 \\begin{{columns}}
 %----------------------------------------------------------------------------------------------------
@@ -11,7 +50,7 @@ template = '''\\begin{{frame}}
     \\item EOY
     \\begin{{figure}}
         \\centering
-        \\subfloat{{\\includegraphics[scale=0.25]{{{FILE}}}}}
+        \\subfloat{{\\includegraphics[scale=0.25]{{Data_MC_comparison_20220120v3p6_std_{YEAR}/{FILE}}}}}
         \\label{{fig:mva_bdt}}
     \\end{{figure}}
 \\end{{itemize}}
@@ -25,7 +64,7 @@ template = '''\\begin{{frame}}
     \\item Ultra Legacy
     \\begin{{figure}}
         \\centering
-        \\subfloat{{\\includegraphics[scale=0.25]{{ultraLegacy_samples/{FILE}}}}}
+        \\subfloat{{\\includegraphics[scale=0.25]{{Data_MC_comparison_20220119v4p1_std_{YEAR}/{FILE}}}}}
         \\label{{fig:mva_bdt}}
     \\end{{figure}}
 \\end{{itemize}}
@@ -35,124 +74,222 @@ template = '''\\begin{{frame}}
 \\end{{frame}}
 '''
 
+template_plots = '''\\begin{{frame}}
+\\frametitle{{ {TITLE} }}
+\\begin{{columns}}
+%----------------------------------------------------------------------------------------------------
+% 1st column
+%----------------------------------------------------------------------------------------------------
+\\begin{{column}}{{0.60\\textwidth}}
+\\begin{{itemize}}
+    \\footnotesize
+    \\item EOY
+    \\begin{{figure}}
+        \\centering
+        \\subfloat{{\\includegraphics[scale=0.25]{{Data_MC_comparison_20220120v3p6_std/{FILE}}}}}
+        \\label{{fig:mva_bdt}}
+    \\end{{figure}}
+\\end{{itemize}}
+\\end{{column}}
+%----------------------------------------------------------------------------------------------------
+% 2nd column
+%----------------------------------------------------------------------------------------------------
+\\begin{{column}}{{0.60\\textwidth}}
+\\begin{{itemize}}
+    \\footnotesize
+    \\item Ultra Legacy
+    \\begin{{figure}}
+        \\centering
+        \\subfloat{{\\includegraphics[scale=0.25]{{Data_MC_comparison_20220119v4p1_std/{FILE}}}}}
+        \\label{{fig:mva_bdt}}
+    \\end{{figure}}
+\\end{{itemize}}
+\\end{{column}}
+
+\\end{{columns}}
+\\end{{frame}}
+'''
+
+template_AN = '''\\begin{{frame}}
+\\frametitle{{ {TITLE} }}
+\\begin{{columns}}
+%----------------------------------------------------------------------------------------------------
+% 1st column
+%----------------------------------------------------------------------------------------------------
+\\begin{{column}}{{0.60\\textwidth}}
+\\begin{{itemize}}
+    \\footnotesize
+    \\item EOY
+    \\begin{{figure}}
+        \\centering
+        \\subfloat{{\\includegraphics[scale=0.25]{{Data_MC_comparison/{FILE}}}}}
+        \\label{{fig:mva_bdt}}
+    \\end{{figure}}
+\\end{{itemize}}
+\\end{{column}}
+%----------------------------------------------------------------------------------------------------
+% 2nd column
+%----------------------------------------------------------------------------------------------------
+\\begin{{column}}{{0.60\\textwidth}}
+\\begin{{itemize}}
+    \\footnotesize
+    \\item Ultra Legacy
+    \\begin{{figure}}
+        \\centering
+        \\subfloat{{\\includegraphics[scale=0.25]{{ultraLegacy_samples/Data_MC_comparison/{FILE}}}}}
+        \\label{{fig:mva_bdt}}
+    \\end{{figure}}
+\\end{{itemize}}
+\\end{{column}}
+
+\\end{{columns}}
+\\end{{frame}}
+'''
+
+#ultraLegacy_samples
+#Data_MC_comparison
+#Data_MC_comparison_std_2016
+#Data_MC_comparison_std_2017
+#Data_MC_comparison_std_2018
+
+# figures {{{
 figures = {
-    "Diphoton invariant mass" : "Data_MC_comparison/THQHadronicTag_Mass.pdf",
-    "Mass\_sideband" : "Data_MC_comparison/THQHadronicTag_Mass_sideband.pdf",
-    "Mass\_pass\_BDT\_smh\_cut\_mixed04" : "Data_MC_comparison/THQHadronicTag_Mass_pass_BDT_smh_cut_mixed04.pdf",
-    "Mass\_pass\_BDT\_smh\_cut\_mixed03" : "Data_MC_comparison/THQHadronicTag_Mass_pass_BDT_smh_cut_mixed03.pdf",
-    "Mass\_pass\_BDT\_smh\_cut\_mixed05" : "Data_MC_comparison/THQHadronicTag_Mass_pass_BDT_smh_cut_mixed05.pdf",
-    "Tprime\_Mass\_pass\_BDT\_smh\_cut\_mixed03" : "Data_MC_comparison/THQHadronicTag_Tprime_Mass_pass_BDT_smh_cut_mixed03.pdf",
-    "Tprime\_Mass\_pass\_BDT\_smh\_cut\_mixed05" : "Data_MC_comparison/THQHadronicTag_Tprime_Mass_pass_BDT_smh_cut_mixed05.pdf",
-    "Tprime\_Mass\_pass\_BDT\_smh\_cut\_mixed04" : "Data_MC_comparison/THQHadronicTag_Tprime_Mass_pass_BDT_smh_cut_mixed04.pdf",
-    "mass\_tprime\_cov" : "Data_MC_comparison/THQHadronicTag_mass_tprime_cov.pdf",
-    "PtHiggs" : "Data_MC_comparison/THQHadronicTag_PtHiggs.pdf",
-    "tprime\_pt\_ratio" : "Data_MC_comparison/THQHadronicTag_tprime_pt_ratio.pdf",
-    "helicity\_tprime" : "Data_MC_comparison/THQHadronicTag_helicity_tprime.pdf",
-    "MetPt" : "Data_MC_comparison/THQHadronicTag_MetPt.pdf",
-    "mass\_top\_cov" : "Data_MC_comparison/THQHadronicTag_mass_top_cov.pdf",
-    "mass\_wboson\_cov" : "Data_MC_comparison/THQHadronicTag_mass_wboson_cov.pdf",
-    "mass\_tprime\_tilde" : "Data_MC_comparison/THQHadronicTag_mass_tprime_tilde.pdf",
-    "Jet2BTag" : "Data_MC_comparison/Jet/THQHadronicTag_Jet2BTag.pdf",
-    "Jet3Eta" : "Data_MC_comparison/Jet/THQHadronicTag_Jet3Eta.pdf",
-    "Jet3BTag" : "Data_MC_comparison/Jet/THQHadronicTag_Jet3BTag.pdf",
-    "Jet1Eta" : "Data_MC_comparison/Jet/THQHadronicTag_Jet1Eta.pdf",
-    "jet2\_ptOverM" : "Data_MC_comparison/Jet/THQHadronicTag_jet2_ptOverM.pdf",
-    "jet1\_ptOverM" : "Data_MC_comparison/Jet/THQHadronicTag_jet1_ptOverM.pdf",
-    "Jet5Eta" : "Data_MC_comparison/Jet/THQHadronicTag_Jet5Eta.pdf",
-    "Jet1BTag" : "Data_MC_comparison/Jet/THQHadronicTag_Jet1BTag.pdf",
-    "jet4\_ptOverM" : "Data_MC_comparison/Jet/THQHadronicTag_jet4_ptOverM.pdf",
-    "Jet2Eta" : "Data_MC_comparison/Jet/THQHadronicTag_Jet2Eta.pdf",
-    "Jet5BTag" : "Data_MC_comparison/Jet/THQHadronicTag_Jet5BTag.pdf",
-    "jet3\_ptOverM" : "Data_MC_comparison/Jet/THQHadronicTag_jet3_ptOverM.pdf",
-    "Jet2pT" : "Data_MC_comparison/Jet/THQHadronicTag_Jet2pT.pdf",
-    "Jet6pT" : "Data_MC_comparison/Jet/THQHadronicTag_Jet6pT.pdf",
-    "Jet4pT" : "Data_MC_comparison/Jet/THQHadronicTag_Jet4pT.pdf",
-    "Jet4BTag" : "Data_MC_comparison/Jet/THQHadronicTag_Jet4BTag.pdf",
-    "Jet3pT" : "Data_MC_comparison/Jet/THQHadronicTag_Jet3pT.pdf",
-    "Jet6BTag" : "Data_MC_comparison/Jet/THQHadronicTag_Jet6BTag.pdf",
-    "Jet1pT" : "Data_MC_comparison/Jet/THQHadronicTag_Jet1pT.pdf",
-    "Jet4Eta" : "Data_MC_comparison/Jet/THQHadronicTag_Jet4Eta.pdf",
-    "Jet5pT" : "Data_MC_comparison/Jet/THQHadronicTag_Jet5pT.pdf",
-    "Jet6Eta" : "Data_MC_comparison/Jet/THQHadronicTag_Jet6Eta.pdf",
-    "chi2\_wjet2\_eta" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_wjet2_eta.pdf",
-    "cov\_chi2\_value" : "Data_MC_comparison/Chi2/THQHadronicTag_cov_chi2_value.pdf",
-    "chi2\_tbw\_ptOverM" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_tbw_ptOverM.pdf",
-    "chi2\_wboson\_eta" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_wboson_eta.pdf",
-    "chi2\_tbw\_mass" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_tbw_mass.pdf",
-    "chi2\_wjet1\_ptOverM" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_wjet1_ptOverM.pdf",
-    "chi2\_wboson\_ptOverM" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_wboson_ptOverM.pdf",
-    "chi2\_wjet2\_ptOverM" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_wjet2_ptOverM.pdf",
-    "chi2\_wboson\_deltaR\_bjet" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_wboson_deltaR_bjet.pdf",
-    "chi2\_tbw\_deltaR\_dipho" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_tbw_deltaR_dipho.pdf",
-    "chi2\_wjet1\_pt" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_wjet1_pt.pdf",
-    "chi2\_bjet\_eta" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_bjet_eta.pdf",
-    "chi2\_tbw\_eta" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_tbw_eta.pdf",
-    "chi2\_wjet1\_eta" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_wjet1_eta.pdf",
-    "chi2\_wjets\_deltaR" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_wjets_deltaR.pdf",
-    "chi2\_bjet\_btagScores" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_bjet_btagScores.pdf",
-    "chi2\_wjet2\_btagScores" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_wjet2_btagScores.pdf",
-    "chi2\_wboson\_pt" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_wboson_pt.pdf",
-    "chi2\_tprime\_deltaR\_dipho" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_tprime_deltaR_dipho.pdf",
-    "chi2\_tprime\_ptOverM" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_tprime_ptOverM.pdf",
-    "chi2\_tbw\_pt" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_tbw_pt.pdf",
-    "chi2\_wjet2\_pt" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_wjet2_pt.pdf",
-    "chi2\_wjet1\_btagScores" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_wjet1_btagScores.pdf",
-    "chi2\_bjet\_ptOverM" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_bjet_ptOverM.pdf",
-    "chi2\_tprime\_eta" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_tprime_eta.pdf",
-    "chi2\_tprime\_deltaR\_tbw" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_tprime_deltaR_tbw.pdf",
-    "chi2\_bjet\_pt" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_bjet_pt.pdf",
-    "chi2\_wboson\_mass" : "Data_MC_comparison/Chi2/THQHadronicTag_chi2_wboson_mass.pdf",
-    "MaxBTag" : "Data_MC_comparison/Had/THQHadronicTag_MaxBTag.pdf",
-    "NbTight" : "Data_MC_comparison/Had/THQHadronicTag_NbTight.pdf",
-    "NJets" : "Data_MC_comparison/Had/THQHadronicTag_NJets.pdf",
-    "SecondMaxBTag" : "Data_MC_comparison/Had/THQHadronicTag_SecondMaxBTag.pdf",
-    "HT" : "Data_MC_comparison/Had/THQHadronicTag_HT.pdf",
-    "NbLoose" : "Data_MC_comparison/Had/THQHadronicTag_NbLoose.pdf",
-    "NbMedium" : "Data_MC_comparison/Had/THQHadronicTag_NbMedium.pdf",
-    "PhotonLeadIDMVA" : "Data_MC_comparison/Photon/THQHadronicTag_PhotonLeadIDMVA.pdf",
-    "DiphotonCosPhi" : "Data_MC_comparison/Photon/THQHadronicTag_DiphotonCosPhi.pdf",
-    "PhotonLeadPhi" : "Data_MC_comparison/Photon/THQHadronicTag_PhotonLeadPhi.pdf",
-    "PhotonMaxIDMVA" : "Data_MC_comparison/Photon/THQHadronicTag_PhotonMaxIDMVA.pdf",
-    "AbsCosHelicity" : "Data_MC_comparison/Photon/THQHadronicTag_AbsCosHelicity.pdf",
-    "PhotonMaxIDMVA\_fine" : "Data_MC_comparison/Photon/THQHadronicTag_PhotonMaxIDMVA_fine.pdf",
-    "PhotonSubleadPhi" : "Data_MC_comparison/Photon/THQHadronicTag_PhotonSubleadPhi.pdf",
-    "PhotonSubleadPt" : "Data_MC_comparison/Photon/THQHadronicTag_PhotonSubleadPt.pdf",
-    "PhotonSubleadPToM" : "Data_MC_comparison/Photon/THQHadronicTag_PhotonSubleadPToM.pdf",
-    "PhotonLeadPToM" : "Data_MC_comparison/Photon/THQHadronicTag_PhotonLeadPToM.pdf",
-    "PhotonMinIDMVA\_fine" : "Data_MC_comparison/Photon/THQHadronicTag_PhotonMinIDMVA_fine.pdf",
-    "PhotonMinIDMVA" : "Data_MC_comparison/Photon/THQHadronicTag_PhotonMinIDMVA.pdf",
-    "Rapidity" : "Data_MC_comparison/Photon/THQHadronicTag_Rapidity.pdf",
-    "DiphotonPtOverMass" : "Data_MC_comparison/Photon/THQHadronicTag_DiphotonPtOverMass.pdf",
-    "PhotonLeadEta" : "Data_MC_comparison/Photon/THQHadronicTag_PhotonLeadEta.pdf",
-    "PhotonLeadPt" : "Data_MC_comparison/Photon/THQHadronicTag_PhotonLeadPt.pdf",
-    "PhotonDeltaR" : "Data_MC_comparison/Photon/THQHadronicTag_PhotonDeltaR.pdf",
-    "PhotonLeadPixelSeed" : "Data_MC_comparison/Photon/THQHadronicTag_PhotonLeadPixelSeed.pdf",
-    "PhotonSubleadIDMVA" : "Data_MC_comparison/Photon/THQHadronicTag_PhotonSubleadIDMVA.pdf",
-    "PhotonSubleadEta" : "Data_MC_comparison/Photon/THQHadronicTag_PhotonSubleadEta.pdf",
-    "PhotonSubleadPixelSeed" : "Data_MC_comparison/Photon/THQHadronicTag_PhotonSubleadPixelSeed.pdf",
+    "Diphoton invariant mass" : "THQHadronicTag_Mass.pdf",
+    "Mass\_sideband" : "THQHadronicTag_Mass_sideband.pdf",
+    "Mass\_pass\_BDT\_smh\_cut\_mixed04" : "THQHadronicTag_Mass_pass_BDT_smh_cut_mixed04.pdf",
+    "Mass\_pass\_BDT\_smh\_cut\_mixed03" : "THQHadronicTag_Mass_pass_BDT_smh_cut_mixed03.pdf",
+    "Mass\_pass\_BDT\_smh\_cut\_mixed05" : "THQHadronicTag_Mass_pass_BDT_smh_cut_mixed05.pdf",
+    "Tprime\_Mass\_pass\_BDT\_smh\_cut\_mixed03" : "THQHadronicTag_Tprime_Mass_pass_BDT_smh_cut_mixed03.pdf",
+    "Tprime\_Mass\_pass\_BDT\_smh\_cut\_mixed05" : "THQHadronicTag_Tprime_Mass_pass_BDT_smh_cut_mixed05.pdf",
+    "Tprime\_Mass\_pass\_BDT\_smh\_cut\_mixed04" : "THQHadronicTag_Tprime_Mass_pass_BDT_smh_cut_mixed04.pdf",
+    "Mass\_tprime\_cov" : "THQHadronicTag_mass_tprime_cov.pdf",
+    "PtHiggs" : "THQHadronicTag_PtHiggs.pdf",
+    "Tprime\_pt\_ratio" : "THQHadronicTag_tprime_pt_ratio.pdf",
+    "Helicity\_tprime" : "THQHadronicTag_helicity_tprime.pdf",
+    "MetPt" : "THQHadronicTag_MetPt.pdf",
+    "Mass\_top\_cov" : "THQHadronicTag_mass_top_cov.pdf",
+    "Mass\_wboson\_cov" : "THQHadronicTag_mass_wboson_cov.pdf",
+    "Mass\_tprime\_tilde" : "THQHadronicTag_mass_tprime_tilde.pdf",
+    "Jet2BTag" : "Jet/THQHadronicTag_Jet2BTag.pdf",
+    "Jet3Eta" : "Jet/THQHadronicTag_Jet3Eta.pdf",
+    "Jet3BTag" : "Jet/THQHadronicTag_Jet3BTag.pdf",
+    "Jet1Eta" : "Jet/THQHadronicTag_Jet1Eta.pdf",
+    "Jet2\_ptOverM" : "Jet/THQHadronicTag_jet2_ptOverM.pdf",
+    "Jet1\_ptOverM" : "Jet/THQHadronicTag_jet1_ptOverM.pdf",
+    "Jet5Eta" : "Jet/THQHadronicTag_Jet5Eta.pdf",
+    "Jet1BTag" : "Jet/THQHadronicTag_Jet1BTag.pdf",
+    "Jet4\_ptOverM" : "Jet/THQHadronicTag_jet4_ptOverM.pdf",
+    "Jet2Eta" : "Jet/THQHadronicTag_Jet2Eta.pdf",
+    "Jet5BTag" : "Jet/THQHadronicTag_Jet5BTag.pdf",
+    "Jet3\_ptOverM" : "Jet/THQHadronicTag_jet3_ptOverM.pdf",
+    "Jet2pT" : "Jet/THQHadronicTag_Jet2pT.pdf",
+    "Jet6pT" : "Jet/THQHadronicTag_Jet6pT.pdf",
+    "Jet4pT" : "Jet/THQHadronicTag_Jet4pT.pdf",
+    "Jet4BTag" : "Jet/THQHadronicTag_Jet4BTag.pdf",
+    "Jet3pT" : "Jet/THQHadronicTag_Jet3pT.pdf",
+    "Jet6BTag" : "Jet/THQHadronicTag_Jet6BTag.pdf",
+    "Jet1pT" : "Jet/THQHadronicTag_Jet1pT.pdf",
+    "Jet4Eta" : "Jet/THQHadronicTag_Jet4Eta.pdf",
+    "Jet5pT" : "Jet/THQHadronicTag_Jet5pT.pdf",
+    "Jet6Eta" : "Jet/THQHadronicTag_Jet6Eta.pdf",
+    "Chi2\_wjet2\_eta" : "Chi2/THQHadronicTag_chi2_wjet2_eta.pdf",
+    "Cov\_chi2\_value" : "Chi2/THQHadronicTag_cov_chi2_value.pdf",
+    "Chi2\_tbw\_ptOverM" : "Chi2/THQHadronicTag_chi2_tbw_ptOverM.pdf",
+    "Chi2\_wboson\_eta" : "Chi2/THQHadronicTag_chi2_wboson_eta.pdf",
+    "Chi2\_tbw\_mass" : "Chi2/THQHadronicTag_chi2_tbw_mass.pdf",
+    "Chi2\_wjet1\_ptOverM" : "Chi2/THQHadronicTag_chi2_wjet1_ptOverM.pdf",
+    "Chi2\_wboson\_ptOverM" : "Chi2/THQHadronicTag_chi2_wboson_ptOverM.pdf",
+    "Chi2\_wjet2\_ptOverM" : "Chi2/THQHadronicTag_chi2_wjet2_ptOverM.pdf",
+    "Chi2\_wboson\_deltaR\_bjet" : "Chi2/THQHadronicTag_chi2_wboson_deltaR_bjet.pdf",
+    "Chi2\_tbw\_deltaR\_dipho" : "Chi2/THQHadronicTag_chi2_tbw_deltaR_dipho.pdf",
+    "Chi2\_wjet1\_pt" : "Chi2/THQHadronicTag_chi2_wjet1_pt.pdf",
+    "Chi2\_bjet\_eta" : "Chi2/THQHadronicTag_chi2_bjet_eta.pdf",
+    "Chi2\_tbw\_eta" : "Chi2/THQHadronicTag_chi2_tbw_eta.pdf",
+    "Chi2\_wjet1\_eta" : "Chi2/THQHadronicTag_chi2_wjet1_eta.pdf",
+    "Chi2\_wjets\_deltaR" : "Chi2/THQHadronicTag_chi2_wjets_deltaR.pdf",
+    "Chi2\_bjet\_btagScores" : "Chi2/THQHadronicTag_chi2_bjet_btagScores.pdf",
+    "Chi2\_wjet2\_btagScores" : "Chi2/THQHadronicTag_chi2_wjet2_btagScores.pdf",
+    "Chi2\_wboson\_pt" : "Chi2/THQHadronicTag_chi2_wboson_pt.pdf",
+    "Chi2\_tprime\_deltaR\_dipho" : "Chi2/THQHadronicTag_chi2_tprime_deltaR_dipho.pdf",
+    "Chi2\_tprime\_ptOverM" : "Chi2/THQHadronicTag_chi2_tprime_ptOverM.pdf",
+    "Chi2\_tbw\_pt" : "Chi2/THQHadronicTag_chi2_tbw_pt.pdf",
+    "Chi2\_wjet2\_pt" : "Chi2/THQHadronicTag_chi2_wjet2_pt.pdf",
+    "Chi2\_wjet1\_btagScores" : "Chi2/THQHadronicTag_chi2_wjet1_btagScores.pdf",
+    "Chi2\_bjet\_ptOverM" : "Chi2/THQHadronicTag_chi2_bjet_ptOverM.pdf",
+    "Chi2\_tprime\_eta" : "Chi2/THQHadronicTag_chi2_tprime_eta.pdf",
+    "Chi2\_tprime\_deltaR\_tbw" : "Chi2/THQHadronicTag_chi2_tprime_deltaR_tbw.pdf",
+    "Chi2\_bjet\_pt" : "Chi2/THQHadronicTag_chi2_bjet_pt.pdf",
+    "Chi2\_wboson\_mass" : "Chi2/THQHadronicTag_chi2_wboson_mass.pdf",
+    "MaxBTag" : "Had/THQHadronicTag_MaxBTag.pdf",
+    "NbTight" : "Had/THQHadronicTag_NbTight.pdf",
+    "NJets" : "Had/THQHadronicTag_NJets.pdf",
+    "SecondMaxBTag" : "Had/THQHadronicTag_SecondMaxBTag.pdf",
+    "HT" : "Had/THQHadronicTag_HT.pdf",
+    "HT\_coarse" : "Had/THQHadronicTag_HT_coarse.pdf",
+    "NbLoose" : "Had/THQHadronicTag_NbLoose.pdf",
+    "NbMedium" : "Had/THQHadronicTag_NbMedium.pdf",
+    "PhotonLeadIDMVA" : "Photon/THQHadronicTag_PhotonLeadIDMVA.pdf",
+    "DiphotonCosPhi" : "Photon/THQHadronicTag_DiphotonCosPhi.pdf",
+    "PhotonLeadPhi" : "Photon/THQHadronicTag_PhotonLeadPhi.pdf",
+    "PhotonMaxIDMVA" : "Photon/THQHadronicTag_PhotonMaxIDMVA.pdf",
+    "AbsCosHelicity" : "Photon/THQHadronicTag_AbsCosHelicity.pdf",
+    "PhotonMaxIDMVA\_fine" : "Photon/THQHadronicTag_PhotonMaxIDMVA_fine.pdf",
+    "PhotonSubleadPhi" : "Photon/THQHadronicTag_PhotonSubleadPhi.pdf",
+    "PhotonSubleadPt" : "Photon/THQHadronicTag_PhotonSubleadPt.pdf",
+    "PhotonSubleadPToM" : "Photon/THQHadronicTag_PhotonSubleadPToM.pdf",
+    "PhotonLeadPToM" : "Photon/THQHadronicTag_PhotonLeadPToM.pdf",
+    "PhotonMinIDMVA\_fine" : "Photon/THQHadronicTag_PhotonMinIDMVA_fine.pdf",
+    "PhotonMinIDMVA" : "Photon/THQHadronicTag_PhotonMinIDMVA.pdf",
+    "Rapidity" : "Photon/THQHadronicTag_Rapidity.pdf",
+    "DiphotonPtOverMass" : "Photon/THQHadronicTag_DiphotonPtOverMass.pdf",
+    "PhotonLeadEta" : "Photon/THQHadronicTag_PhotonLeadEta.pdf",
+    "PhotonLeadPt" : "Photon/THQHadronicTag_PhotonLeadPt.pdf",
+    "PhotonDeltaR" : "Photon/THQHadronicTag_PhotonDeltaR.pdf",
+    "PhotonLeadPixelSeed" : "Photon/THQHadronicTag_PhotonLeadPixelSeed.pdf",
+    "PhotonSubleadIDMVA" : "Photon/THQHadronicTag_PhotonSubleadIDMVA.pdf",
+    "PhotonSubleadEta" : "Photon/THQHadronicTag_PhotonSubleadEta.pdf",
+    "PhotonSubleadPixelSeed" : "Photon/THQHadronicTag_PhotonSubleadPixelSeed.pdf",
 
-    "mygraph_efficiency_MVA_value_nrb_varset8_mixed04_tmva_bdtg_n2000_TprimeBToTH_M-800_linear" : "Data_MC_comparison/bdtg/THQHadronicTag_mygraph_efficiency_MVA_value_nrb_varset8_mixed04_tmva_bdtg_n2000_TprimeBToTH_M-800_linear.pdf",
-    "mytag_MVA_value_smh_varset8_mixed05_tmva_bdtg_n100_TprimeBToTH_M-1100" : "Data_MC_comparison/bdtg/THQHadronicTag_mytag_MVA_value_smh_varset8_mixed05_tmva_bdtg_n100_TprimeBToTH_M-1100.pdf",
-    "mygraph_efficiency_MVA_value_smh_varset8_mixed03_tmva_bdtg_n2000_TprimeBToTH_M-600_linear" : "Data_MC_comparison/bdtg/THQHadronicTag_mygraph_efficiency_MVA_value_smh_varset8_mixed03_tmva_bdtg_n2000_TprimeBToTH_M-600_linear.pdf",
-    "mytag_MVA_value_smh_varset8_mixed03_tmva_bdtg_n100_TprimeBToTH_M-600" : "Data_MC_comparison/bdtg/THQHadronicTag_mytag_MVA_value_smh_varset8_mixed03_tmva_bdtg_n100_TprimeBToTH_M-600.pdf",
-    "mytag_MVA_value_smh_varset8_mixed05_tmva_bdtg_withNRBcut_n100_TprimeBToTH_M-1100" : "Data_MC_comparison/bdtg/THQHadronicTag_mytag_MVA_value_smh_varset8_mixed05_tmva_bdtg_withNRBcut_n100_TprimeBToTH_M-1100.pdf",
-    "mytag_MVA_value_nrb_varset8_mixed04_tmva_bdtg_n100_TprimeBToTH_M-800" : "Data_MC_comparison/bdtg/THQHadronicTag_mytag_MVA_value_nrb_varset8_mixed04_tmva_bdtg_n100_TprimeBToTH_M-800.pdf",
-    "mytag_MVA_value_smh_varset8_mixed03_tmva_bdtg_withNRBcut_n100_TprimeBToTH_M-600" : "Data_MC_comparison/bdtg/THQHadronicTag_mytag_MVA_value_smh_varset8_mixed03_tmva_bdtg_withNRBcut_n100_TprimeBToTH_M-600.pdf",
-    "mygraph_efficiency_MVA_value_nrb_varset8_mixed05_tmva_bdtg_n2000_TprimeBToTH_M-1100_linear" : "Data_MC_comparison/bdtg/THQHadronicTag_mygraph_efficiency_MVA_value_nrb_varset8_mixed05_tmva_bdtg_n2000_TprimeBToTH_M-1100_linear.pdf",
-    "mygraph_efficiency_MVA_value_smh_varset8_mixed05_tmva_bdtg_n2000_TprimeBToTH_M-1100_linear" : "Data_MC_comparison/bdtg/THQHadronicTag_mygraph_efficiency_MVA_value_smh_varset8_mixed05_tmva_bdtg_n2000_TprimeBToTH_M-1100_linear.pdf",
-    "mytag_MVA_value_nrb_varset8_mixed05_tmva_bdtg_n100_TprimeBToTH_M-1100" : "Data_MC_comparison/bdtg/THQHadronicTag_mytag_MVA_value_nrb_varset8_mixed05_tmva_bdtg_n100_TprimeBToTH_M-1100.pdf",
-    "mygraph_efficiency_MVA_value_smh_varset8_mixed04_tmva_bdtg_withNRBcut_n2000_TprimeBToTH_M-800_linear" : "Data_MC_comparison/bdtg/THQHadronicTag_mygraph_efficiency_MVA_value_smh_varset8_mixed04_tmva_bdtg_withNRBcut_n2000_TprimeBToTH_M-800_linear.pdf",
-    "mygraph_efficiency_MVA_value_smh_varset8_mixed03_tmva_bdtg_withNRBcut_n2000_TprimeBToTH_M-600_linear" : "Data_MC_comparison/bdtg/THQHadronicTag_mygraph_efficiency_MVA_value_smh_varset8_mixed03_tmva_bdtg_withNRBcut_n2000_TprimeBToTH_M-600_linear.pdf",
-    "mygraph_efficiency_MVA_value_smh_varset8_mixed05_tmva_bdtg_withNRBcut_n2000_TprimeBToTH_M-1100_linear" : "Data_MC_comparison/bdtg/THQHadronicTag_mygraph_efficiency_MVA_value_smh_varset8_mixed05_tmva_bdtg_withNRBcut_n2000_TprimeBToTH_M-1100_linear.pdf",
-    "mytag_MVA_value_nrb_varset8_mixed03_tmva_bdtg_n100_TprimeBToTH_M-600" : "Data_MC_comparison/bdtg/THQHadronicTag_mytag_MVA_value_nrb_varset8_mixed03_tmva_bdtg_n100_TprimeBToTH_M-600.pdf",
-    "mytag_MVA_value_smh_varset8_mixed04_tmva_bdtg_n100_TprimeBToTH_M-800" : "Data_MC_comparison/bdtg/THQHadronicTag_mytag_MVA_value_smh_varset8_mixed04_tmva_bdtg_n100_TprimeBToTH_M-800.pdf",
-    "mytag_MVA_value_smh_varset8_mixed04_tmva_bdtg_withNRBcut_n100_TprimeBToTH_M-800" : "Data_MC_comparison/bdtg/THQHadronicTag_mytag_MVA_value_smh_varset8_mixed04_tmva_bdtg_withNRBcut_n100_TprimeBToTH_M-800.pdf",
-    "mygraph_efficiency_MVA_value_smh_varset8_mixed04_tmva_bdtg_n2000_TprimeBToTH_M-800_linear" : "Data_MC_comparison/bdtg/THQHadronicTag_mygraph_efficiency_MVA_value_smh_varset8_mixed04_tmva_bdtg_n2000_TprimeBToTH_M-800_linear.pdf",
-    "mygraph_efficiency_MVA_value_nrb_varset8_mixed03_tmva_bdtg_n2000_TprimeBToTH_M-600_linear" : "Data_MC_comparison/bdtg/THQHadronicTag_mygraph_efficiency_MVA_value_nrb_varset8_mixed03_tmva_bdtg_n2000_TprimeBToTH_M-600_linear.pdf",
+    "Mygraph_efficiency_MVA_value_nrb_varset8_mixed04_tmva_bdtg_n2000_TprimeBToTH_M-800_linear" : "bdtg/THQHadronicTag_mygraph_efficiency_MVA_value_nrb_varset8_mixed04_tmva_bdtg_n2000_TprimeBToTH_M-800_linear.pdf",
+    "Mytag_MVA_value_smh_varset8_mixed05_tmva_bdtg_n100_TprimeBToTH_M-1100" : "bdtg/THQHadronicTag_mytag_MVA_value_smh_varset8_mixed05_tmva_bdtg_n100_TprimeBToTH_M-1100.pdf",
+    "Mygraph_efficiency_MVA_value_smh_varset8_mixed03_tmva_bdtg_n2000_TprimeBToTH_M-600_linear" : "bdtg/THQHadronicTag_mygraph_efficiency_MVA_value_smh_varset8_mixed03_tmva_bdtg_n2000_TprimeBToTH_M-600_linear.pdf",
+    "Mytag_MVA_value_smh_varset8_mixed03_tmva_bdtg_n100_TprimeBToTH_M-600" : "bdtg/THQHadronicTag_mytag_MVA_value_smh_varset8_mixed03_tmva_bdtg_n100_TprimeBToTH_M-600.pdf",
+    "Mytag_MVA_value_smh_varset8_mixed05_tmva_bdtg_withNRBcut_n100_TprimeBToTH_M-1100" : "bdtg/THQHadronicTag_mytag_MVA_value_smh_varset8_mixed05_tmva_bdtg_withNRBcut_n100_TprimeBToTH_M-1100.pdf",
+    "Mytag_MVA_value_nrb_varset8_mixed04_tmva_bdtg_n100_TprimeBToTH_M-800" : "bdtg/THQHadronicTag_mytag_MVA_value_nrb_varset8_mixed04_tmva_bdtg_n100_TprimeBToTH_M-800.pdf",
+    "Mytag_MVA_value_smh_varset8_mixed03_tmva_bdtg_withNRBcut_n100_TprimeBToTH_M-600" : "bdtg/THQHadronicTag_mytag_MVA_value_smh_varset8_mixed03_tmva_bdtg_withNRBcut_n100_TprimeBToTH_M-600.pdf",
+    "Mygraph_efficiency_MVA_value_nrb_varset8_mixed05_tmva_bdtg_n2000_TprimeBToTH_M-1100_linear" : "bdtg/THQHadronicTag_mygraph_efficiency_MVA_value_nrb_varset8_mixed05_tmva_bdtg_n2000_TprimeBToTH_M-1100_linear.pdf",
+    "Mygraph_efficiency_MVA_value_smh_varset8_mixed05_tmva_bdtg_n2000_TprimeBToTH_M-1100_linear" : "bdtg/THQHadronicTag_mygraph_efficiency_MVA_value_smh_varset8_mixed05_tmva_bdtg_n2000_TprimeBToTH_M-1100_linear.pdf",
+    "Mytag_MVA_value_nrb_varset8_mixed05_tmva_bdtg_n100_TprimeBToTH_M-1100" : "bdtg/THQHadronicTag_mytag_MVA_value_nrb_varset8_mixed05_tmva_bdtg_n100_TprimeBToTH_M-1100.pdf",
+    "Mygraph_efficiency_MVA_value_smh_varset8_mixed04_tmva_bdtg_withNRBcut_n2000_TprimeBToTH_M-800_linear" : "bdtg/THQHadronicTag_mygraph_efficiency_MVA_value_smh_varset8_mixed04_tmva_bdtg_withNRBcut_n2000_TprimeBToTH_M-800_linear.pdf",
+    "Mygraph_efficiency_MVA_value_smh_varset8_mixed03_tmva_bdtg_withNRBcut_n2000_TprimeBToTH_M-600_linear" : "bdtg/THQHadronicTag_mygraph_efficiency_MVA_value_smh_varset8_mixed03_tmva_bdtg_withNRBcut_n2000_TprimeBToTH_M-600_linear.pdf",
+    "Mygraph_efficiency_MVA_value_smh_varset8_mixed05_tmva_bdtg_withNRBcut_n2000_TprimeBToTH_M-1100_linear" : "bdtg/THQHadronicTag_mygraph_efficiency_MVA_value_smh_varset8_mixed05_tmva_bdtg_withNRBcut_n2000_TprimeBToTH_M-1100_linear.pdf",
+    "Mytag_MVA_value_nrb_varset8_mixed03_tmva_bdtg_n100_TprimeBToTH_M-600" : "bdtg/THQHadronicTag_mytag_MVA_value_nrb_varset8_mixed03_tmva_bdtg_n100_TprimeBToTH_M-600.pdf",
+    "Mytag_MVA_value_smh_varset8_mixed04_tmva_bdtg_n100_TprimeBToTH_M-800" : "bdtg/THQHadronicTag_mytag_MVA_value_smh_varset8_mixed04_tmva_bdtg_n100_TprimeBToTH_M-800.pdf",
+    "Mytag_MVA_value_smh_varset8_mixed04_tmva_bdtg_withNRBcut_n100_TprimeBToTH_M-800" : "bdtg/THQHadronicTag_mytag_MVA_value_smh_varset8_mixed04_tmva_bdtg_withNRBcut_n100_TprimeBToTH_M-800.pdf",
+    "Mygraph_efficiency_MVA_value_smh_varset8_mixed04_tmva_bdtg_n2000_TprimeBToTH_M-800_linear" : "bdtg/THQHadronicTag_mygraph_efficiency_MVA_value_smh_varset8_mixed04_tmva_bdtg_n2000_TprimeBToTH_M-800_linear.pdf",
+    "Mygraph_efficiency_MVA_value_nrb_varset8_mixed03_tmva_bdtg_n2000_TprimeBToTH_M-600_linear" : "bdtg/THQHadronicTag_mygraph_efficiency_MVA_value_nrb_varset8_mixed03_tmva_bdtg_n2000_TprimeBToTH_M-600_linear.pdf",
+
+    "Jet2Phi" : "Jet/THQHadronicTag_Jet2Phi.pdf",
+    "Jet4Phi" : "Jet/THQHadronicTag_Jet4Phi.pdf",
+    "Jet3Phi" : "Jet/THQHadronicTag_Jet3Phi.pdf",
+    "Jet1Phi" : "Jet/THQHadronicTag_Jet1Phi.pdf",
+    "MetPhi" : "THQHadronicTag_MetPhi.pdf",
+    "MetPt" : "THQHadronicTag_MetPt.pdf",
+    "Chi2\_bjet\_phi" : "Chi2/THQHadronicTag_chi2_bjet_phi.pdf",
+    "Chi2\_wjet1\_phi" : "Chi2/THQHadronicTag_chi2_wjet1_phi.pdf",
+    "Chi2\_wjet2\_phi" : "Chi2/THQHadronicTag_chi2_wjet2_phi.pdf",
 }
-
-mykeys = [
+#}}}
+# mykeys_three_years {{{
+mykeys_three_years = [
     "Diphoton invariant mass",
+    "Mass\_tprime\_cov",
+    "Mass\_tprime\_tilde",
+    "NJets",
+    "NbLoose",
+    "HT\_coarse",
+    #"Mass\_wboson\_cov",
+    #"Mass\_top\_cov",
     #"Mass\_sideband",
     #"Mass\_pass\_BDT\_smh\_cut\_mixed04",
     #"Mass\_pass\_BDT\_smh\_cut\_mixed03",
@@ -160,90 +297,105 @@ mykeys = [
     #"Tprime\_Mass\_pass\_BDT\_smh\_cut\_mixed03",
     #"Tprime\_Mass\_pass\_BDT\_smh\_cut\_mixed05",
     #"Tprime\_Mass\_pass\_BDT\_smh\_cut\_mixed04",
-    "mass\_tprime\_cov",
-    "PtHiggs",
-    "tprime\_pt\_ratio",
-    "helicity\_tprime",
-    "MetPt",
-    "mass\_top\_cov",
-    "mass\_wboson\_cov",
-    "mass\_tprime\_tilde",
-    "Jet2BTag",
-    "Jet3Eta",
-    "Jet3BTag",
-    "Jet1Eta",
-    "jet2\_ptOverM",
-    "jet1\_ptOverM",
-    "Jet5Eta",
-    "Jet1BTag",
-    "jet4\_ptOverM",
-    "Jet2Eta",
-    "Jet5BTag",
-    "jet3\_ptOverM",
-    "Jet2pT",
-    "Jet6pT",
-    "Jet4pT",
-    "Jet4BTag",
-    "Jet3pT",
-    "Jet6BTag",
-    "Jet1pT",
-    "Jet4Eta",
-    "Jet5pT",
-    "Jet6Eta",
-    "chi2\_wjet2\_eta",
-    "cov\_chi2\_value",
-    "chi2\_tbw\_ptOverM",
-    "chi2\_wboson\_eta",
-    "chi2\_tbw\_mass",
-    "chi2\_wjet1\_ptOverM",
-    "chi2\_wboson\_ptOverM",
-    "chi2\_wjet2\_ptOverM",
-    "chi2\_wboson\_deltaR\_bjet",
-    "chi2\_tbw\_deltaR\_dipho",
-    "chi2\_wjet1\_pt",
-    "chi2\_bjet\_eta",
-    "chi2\_tbw\_eta",
-    "chi2\_wjet1\_eta",
-    "chi2\_wjets\_deltaR",
-    "chi2\_bjet\_btagScores",
-    "chi2\_wjet2\_btagScores",
-    "chi2\_wboson\_pt",
-    "chi2\_tprime\_deltaR\_dipho",
-    "chi2\_tprime\_ptOverM",
-    "chi2\_tbw\_pt",
-    "chi2\_wjet2\_pt",
-    "chi2\_wjet1\_btagScores",
-    "chi2\_bjet\_ptOverM",
-    "chi2\_tprime\_eta",
-    "chi2\_tprime\_deltaR\_tbw",
-    "chi2\_bjet\_pt",
-    "chi2\_wboson\_mass",
-    "MaxBTag",
-    "NbTight",
-    "NJets",
-    "SecondMaxBTag",
-    "HT",
-    "NbLoose",
-    "NbMedium",
-    "PhotonLeadIDMVA",
-    "DiphotonCosPhi",
-    "PhotonLeadPhi",
-    "PhotonMaxIDMVA",
-    "AbsCosHelicity",
+    "DiphotonPtOverMass",
     "PhotonMaxIDMVA\_fine",
-    "PhotonSubleadPhi",
+    "PhotonMinIDMVA\_fine",
+    "DiphotonCosPhi",
+    "AbsCosHelicity",
+    "Rapidity",
+    "PhotonLeadPt",
+    "PhotonLeadPToM",
+    "PhotonLeadEta",
+    "PhotonLeadPhi",
+    "PhotonLeadPixelSeed",
+    "PhotonLeadIDMVA",
     "PhotonSubleadPt",
     "PhotonSubleadPToM",
-    "PhotonLeadPToM",
-    "PhotonMinIDMVA\_fine",
-    "PhotonMinIDMVA",
-    "Rapidity",
-    "DiphotonPtOverMass",
-    "PhotonLeadEta",
-    "PhotonLeadPt",
-    "PhotonDeltaR",
-    "PhotonLeadPixelSeed",
-    "PhotonSubleadIDMVA",
     "PhotonSubleadEta",
+    "PhotonSubleadPhi",
     "PhotonSubleadPixelSeed",
+    "PhotonSubleadIDMVA",
+    "PhotonDeltaR",
+    
+    "MaxBTag",
+    "SecondMaxBTag",
+    "Jet1pT",
+    "Jet2pT",
+    "Jet3pT",
+    "Jet4pT",
+    "Jet1\_ptOverM",
+    "Jet2\_ptOverM",
+    "Jet3\_ptOverM",
+    "Jet4\_ptOverM",
+    "Jet1Eta",
+    "Jet2Eta",
+    "Jet3Eta",
+    "Jet4Eta",
+    "Jet1BTag",
+    "Jet2BTag",
+    "Jet3BTag",
+    "Jet4BTag",
+    "Chi2\_wjet1\_pt",
+    "Chi2\_wjet1\_ptOverM",
+    "Chi2\_wjet1\_eta",
+    "Chi2\_wjet1\_btagScores",
+    "Chi2\_wjet2\_pt",
+    "Chi2\_wjet2\_ptOverM",
+    "Chi2\_wjet2\_eta",
+    "Chi2\_wjet2\_btagScores",
+    "Chi2\_wjets\_deltaR",
+    "Chi2\_bjet\_pt",
+    "Chi2\_bjet\_ptOverM",
+    "Chi2\_bjet\_eta",
+    "Chi2\_bjet\_btagScores",
+    "Chi2\_wboson\_pt",
+    "Chi2\_wboson\_ptOverM",
+    "Chi2\_wboson\_eta",
+    "Chi2\_wboson\_mass",
+    "Chi2\_wboson\_deltaR\_bjet",
+    "Chi2\_tbw\_pt",
+    "Chi2\_tbw\_ptOverM",
+    "Chi2\_tbw\_eta",
+    "Chi2\_tbw\_mass",
+    "Chi2\_tbw\_deltaR\_dipho",
+    "Cov\_chi2\_value",
+    "Chi2\_tprime\_ptOverM",
+    "Tprime\_pt\_ratio",
+    "Chi2\_tprime\_eta",
+    "Chi2\_tprime\_deltaR\_tbw",
+    "Chi2\_tprime\_deltaR\_dipho",
+    "Helicity\_tprime",
+    "MetPt",
 ]
+#}}}
+# mykeys_kinematics {{{
+mykeys_kinematics = [
+    "Jet1pT",
+    "Jet2pT",
+    "Jet3pT",
+    "Jet1Eta",
+    "Jet2Eta",
+    "Jet3Eta",
+    "Jet1Phi",
+    "Jet2Phi",
+    "Jet3Phi",
+    "Jet1BTag",
+    "Jet2BTag",
+    "Jet3BTag",
+    "MetPt",
+    "MetPhi",
+
+    "Chi2\_wjet1\_pt",
+    "Chi2\_wjet2\_pt",
+    "Chi2\_bjet\_pt",
+    "Chi2\_wjet1\_eta",
+    "Chi2\_wjet2\_eta",
+    "Chi2\_bjet\_eta",
+    "Chi2\_wjet1\_phi",
+    "Chi2\_wjet2\_phi",
+    "Chi2\_bjet\_phi",
+    "Chi2\_wjet1\_btagScores",
+    "Chi2\_wjet2\_btagScores",
+    "Chi2\_bjet\_btagScores",
+]
+#}}}

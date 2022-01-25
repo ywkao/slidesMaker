@@ -10,7 +10,13 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-i', help='make slides', type=str, default="tex/tprime_hadronic_update.tex")
 parser.add_argument('-m', help='make slides', action='store_true')
 parser.add_argument('-e', help='compile tex file', action='store_true')
+parser.add_argument('-t', help='tag of output files', type=str, default="")
 args = parser.parse_args()
+
+mytag = "AN"
+mytag = "plots"
+mytag = "2016"
+mytag = args.t
 
 #----------------------------------------------------------------------------------------------------
 
@@ -28,7 +34,7 @@ def redirect_ouput_files(f):
 
 def update_and_open_slides(f):
     pdf_file_ori = stem + ".pdf"
-    pdf_file_mod = stem + "_" + datetime_tag + ".pdf"
+    pdf_file_mod = stem + "_" + mytag + "_" + datetime_tag + ".pdf"
     subprocess.call("mv output/%s output/%s" % (pdf_file_ori, pdf_file_mod), shell=True)
     subprocess.call("open output/%s" % pdf_file_mod, shell=True)
     
@@ -40,7 +46,7 @@ if __name__ == "__main__":
     print(">>> %s is used for making slides. :)" % mylatex)
 
     if args.m:
-        subprocess.call("python ./python/make_slides.py", shell=True)
+        subprocess.call("python ./python/slide_maker.py", shell=True)
         
     if args.e:
         subprocess.call("mkdir -p output", shell=True)
