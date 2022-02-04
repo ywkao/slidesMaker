@@ -5,16 +5,18 @@ import template_collector as tc
 template = tc.template_AN
 template = tc.template_2016
 template = tc.template_plots
+template = tc.template_plots_fixBjetEta
+
 mykeys = tc.mykeys_three_years
 
-template = tc.template_plots_year
-mykeys = tc.mykeys_kinematics
+#template = tc.template_plots_year
+#mykeys = tc.mykeys_kinematics
 
 def make_a_slide(slide):
     with open ("slides/" + slide["tex"], 'w') as f:
-        #f.write( template.format(TITLE=slide["title"], FILE=slide["filename"]) )
+        f.write( template.format(TITLE=slide["title"], FILE=slide["filename"]) )
         #f.write( template.format(TITLE=slide["title"], YEAR=2017, FILE=slide["filename"]) )
-        f.write( template.format(TITLE=slide["title"], YEAR=2018, FILE=slide["filename"]) )
+        #f.write( template.format(TITLE=slide["title"], YEAR=2018, FILE=slide["filename"]) )
 
 def make_slides():
     counter = 1

@@ -2,6 +2,42 @@
 #----------------------------------------------------------------------------------------------------
 # template
 #----------------------------------------------------------------------------------------------------
+template_plots_fixBjetEta = '''\\begin{{frame}}
+\\frametitle{{ {TITLE} }}
+\\begin{{columns}}
+%----------------------------------------------------------------------------------------------------
+% 1st column
+%----------------------------------------------------------------------------------------------------
+\\begin{{column}}{{0.60\\textwidth}}
+\\begin{{itemize}}
+    \\footnotesize
+    \\item EOY
+    \\begin{{figure}}
+        \\centering
+        \\subfloat{{\\includegraphics[scale=0.25]{{Data_MC_comparison_20220119v4p1_std/{FILE}}}}}
+        \\label{{fig:mva_bdt}}
+    \\end{{figure}}
+\\end{{itemize}}
+\\end{{column}}
+%----------------------------------------------------------------------------------------------------
+% 2nd column
+%----------------------------------------------------------------------------------------------------
+\\begin{{column}}{{0.60\\textwidth}}
+\\begin{{itemize}}
+    \\footnotesize
+    \\item Ultra Legacy
+    \\begin{{figure}}
+        \\centering
+        \\subfloat{{\\includegraphics[scale=0.25]{{Data_MC_comparison_20220126_fixBjetEta_std/{FILE}}}}}
+        \\label{{fig:mva_bdt}}
+    \\end{{figure}}
+\\end{{itemize}}
+\\end{{column}}
+
+\\end{{columns}}
+\\end{{frame}}
+'''
+
 template_2016 = '''\\begin{{frame}}
 \\frametitle{{ {TITLE} }}
 \\begin{{columns}}
